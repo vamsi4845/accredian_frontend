@@ -21,7 +21,7 @@ export default function ReferForm() {
     };
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_VERCEL_RENDER_API}/api/referrals`, {
+      const response = await fetch(import.meta.env.VITE_VERCEL_RENDER_API, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

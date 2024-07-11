@@ -10,7 +10,7 @@ export default function ReferForm() {
   const [isSuccess, setIsSuccess] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
 
     const formData = {
       name: e.target.name.value,
@@ -19,23 +19,27 @@ export default function ReferForm() {
       friendsEmail: e.target.friendsEmail.value,
       course: selectedCourse,
     };
+
     try {
-      const response = await fetch(process.env.RENDER_API, {
+      const response = await fetch(`${import.meta.env.VITE_RENDER_API}/api/referrals`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
+
       if (response.ok) {
         setIsSuccess(true);
         e.target.reset();
       } else {
-        alert("Failed to submit referral. Please try again.");
+        const errorData = await response.json();
+        console.error("Server responded with an error:", errorData);
+        alert(`Failed to submit referral. Error: ${errorData.message || response.statusText}`);
       }
     } catch (error) {
       console.error("Error submitting referral:", error);
-      alert("An error occurred. Please try again later.");
+      alert(`An error occurred: ${error.message}. Please try again later.`);
     }
   };
 
@@ -53,26 +57,26 @@ export default function ReferForm() {
         </DialogHeader>
         {isSuccess && (
           <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-          Referral submitted successfully!
-        </div>
+            Referral submitted successfully!
+          </div>
         )}
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-5 items-center gap-4">
               <Label htmlFor="name" className="col-span-2 text-right">Your Name</Label>
-              <Input id="name" name="name" className="col-span-3" />
+              <Input id="name" name="name" className="col-span-3" required />
             </div>
             <div className="grid grid-cols-5 items-center gap-4">
               <Label htmlFor="email" className="col-span-2 text-right">Your Email</Label>
-              <Input id="email" name="email" type="email" className="col-span-3" />
+              <Input id="email" name="email" type="email" className="col-span-3" required />
             </div>
             <div className="grid grid-cols-5 items-center gap-4">
               <Label htmlFor="friendsName" className="col-span-2 text-right">Friend's Name</Label>
-              <Input id="friendsName" name="friendsName" className="col-span-3" />
+              <Input id="friendsName" name="friendsName" className="col-span-3" required />
             </div>
             <div className="grid grid-cols-5 items-center gap-4">
               <Label htmlFor="friendsEmail" className="col-span-2 text-right">Friend's Email</Label>
-              <Input id="friendsEmail" name="friendsEmail" type="email" className="col-span-3" />
+              <Input id="friendsEmail" name="friendsEmail" type="email" className="col-span-3" required />
             </div>
             <div className="grid grid-cols-5 items-center gap-4">
               <Label htmlFor="course" className="col-span-2 text-right">Select Course</Label>
@@ -97,3 +101,5 @@ export default function ReferForm() {
     </Dialog>
   );
 }
+
+

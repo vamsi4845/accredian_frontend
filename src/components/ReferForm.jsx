@@ -20,7 +20,7 @@ export default function ReferForm() {
       course: selectedCourse,
     };
     try {
-      const response = await fetch("http://localhost:3000/api/referrals", {
+      const response = await fetch(process.env.RENDER_API, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

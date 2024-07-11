@@ -97,7 +97,9 @@ export default function ReferForm() {
             </div>
           </div>
           <DialogFooter>
-            <Button disabled={isLoading} type="submit">Refer Now</Button>
+            <Button disabled={isLoading} type="submit">
+            {isLoading ? 'Wait a few seconds...' : 'Refer Now'}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 export default function ReferForm() {
   const [selectedCourse, setSelectedCourse] = useState("Product Management");
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault(); 
@@ -21,6 +22,7 @@ export default function ReferForm() {
     };
 
     try {
+      setIsLoading(true);
       const response = await fetch(import.meta.env.VITE_VERCEL_RENDER_API, {
         method: "POST",
         headers: {
@@ -31,6 +33,7 @@ export default function ReferForm() {
 
       if (response.ok) {
         setIsSuccess(true);
+        setIsLoading(false);
         e.target.reset();
       } else {
         const errorData = await response.json();
@@ -94,7 +97,7 @@ export default function ReferForm() {
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit">Refer Now</Button>
+            <Button disabled={isLoading} type="submit">Refer Now</Button>
           </DialogFooter>
         </form>
       </DialogContent>

@@ -55,7 +55,7 @@ export default function ReferForm() {
         <DialogHeader>
           <DialogTitle>Refer a Friend</DialogTitle>
           <DialogDescription>
-            Fill in the details to refer a friend. Click submit when you're done.
+            Fill in the details to refer a friend. Click Refer Now when you're done.
           </DialogDescription>
         </DialogHeader>
         {isSuccess && (
